@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Lost & Found Registry</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    
+    <!-- Main Application Container -->
+    <div class="app-container">
+
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1 style="font-size: 2rem;">Local Lost & Found Hub</h1>
+                <p id="current-user-id">
+                    Initializing Local ID...
+                </p>
+            </div>
+        </header>
+
+        <!-- Navigation - Tab Design -->
+        <nav>
+            <div class="nav-content">
+                <button id="nav-items" data-view="items-list-view" class="nav-tab">
+                    <svg style="width: 1.25rem; height: 1.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    All Items
+                </button>
+                <button data-view="report-form-view" class="nav-tab">
+                    <svg style="width: 1.25rem; height: 1.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Report Item
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main>
+
+            <!-- 1. Items List View (Default View) -->
+            <section id="items-list-view" class="app-view">
+                <h2>Local Item Registry</h2>
+                
+                <!-- Search & Filter Bar -->
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search by name, description, or location..." />
+                    
+                    <select id="filter-status">
+                        <option value="All">Filter by: All Statuses</option>
+                        <option value="Lost">Only Lost Items</option>
+                        <option value="Found">Only Found Items</option>
+                    </select>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loading-indicator" style="display: block;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <svg class="animate-pulse" style="width: 2rem; height: 2rem; color: var(--primary); margin: 0 auto 0.5rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        Loading items from local storage...
+                    </div>
+                </div>
+
+                <!-- Item Cards (Rendered by JS) -->
+                <div id="items-list">
+                    <!-- Dynamic item cards will be inserted here -->
+                </div>
+            </section>
+
+            <!-- 2. Report Form View -->
+            <section id="report-form-view" class="app-view hidden">
+                <div class="report-card">
+                    <h2>Submit a Report</h2>
+                    
+                    <!-- Item Type Selection -->
+                    <div class="form-group">
+                        <label>Is this item...</label>
+                        <div class="type-selection">
+                            <button type="button" id="btn-lost" data-type="Lost" class="report-type-btn">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                LOST
+                            </button>
+                            <button type="button" id="btn-found" data-type="Found" class="report-type-btn">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                FOUND
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Report Form -->
+                    <form id="report-form">
+                        <input type="hidden" name="item-type" id="report-type" value="Lost" />
+                        
+                        <div class="form-group">
+                            <label for="item-name">Item Name (e.g., Blue Wallet, Apple Watch)</label>
+                            <input type="text" name="item-name" id="item-name" placeholder="Required" required>
+                        </div>
+
+                        <!-- PHOTO INPUT FIELD -->
+                        <div class="form-group">
+                            <label for="item-photo">Attach Photo (Optional, Max 500KB)</label>
+                            <input type="file" name="item-photo" id="item-photo" accept="image/jpeg, image/png" class="file-input">
+                            <p class="file-input-helper">Images are stored locally in your browser using Base64. Please keep files small.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Detailed Description</label>
+                            <textarea name="description" id="description" rows="3" placeholder="Include color, brand, unique marks, and approximate size." required></textarea>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="date">Date Lost/Found</label>
+                                <input type="date" name="date" id="date" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="location">Location (e.g., C-Block Cafeteria, Bus Stop 3)</label>
+                                <input type="text" name="location" id="location" placeholder="Required" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-info">Your Contact Info (Email or Phone)</label>
+                            <input type="text" name="contact-info" id="contact-info" placeholder="To be contacted if a match is found" required>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            Submit Report
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Lost & Found System. Powered by Vanilla JS & Local Storage.</p>
+            <p class="contact-info">Galgotias management - Email: galgotiascollege.edu | Phone: 9142######</p>
+        </footer>
+        
+        <!-- Message Modal Overlay -->
+        <div id="message-modal" class="modal-overlay" aria-modal="true" role="dialog">
+            <div class="modal-content" id="modal-content">
+                <h3 id="modal-title" class="modal-title text-primary">Message</h3>
+                <p id="modal-body" class="modal-body">This is a system message.</p>
+                <button id="modal-close-btn" class="modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+   
+</body>
+<script src="script.js"></script>
+</html>

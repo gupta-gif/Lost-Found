@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lost & Found System</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background: rgba(0, 149, 255, 0.745);
+      color: #333;
+    }
+
+    header {
+      background: #2200ffa6;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: rgba(0, 28, 187, 0.663);
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: rgb(255, 255, 255);
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+     nav a:hover {
+      text-decoration:underline ;
+      color:gray;
+    }
+
+    section {
+      padding: 30px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #6f0496;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #007bff;
+      color: white;
+      margin-top: 30px;
+    }
+
+    .image-preview {
+      display: block;
+      margin-top: 10px;
+      max-width: 200px;
+      border-radius: 8px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+   .moving-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: moveText 10s linear infinite;
+  font-style: italic;
+  font-weight: bold;
+  color: #ffeb3b;
+}
+
+@keyframes moveText {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Lost & Found System</h1>
+    <p class="moving-text">Facilitating all the retrieval items</p>
+  </header>
+
+  <nav>
+    <a href="#lost">Report Lost Item</a>
+    <a href="#found">Report Found Item</a>
+    <a href="#search">Search</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- LOST ITEM SECTION -->
+  <section id="lost">
+    <div class="card">
+      <h2>Report Lost Item</h2>
+      <form>
+        <label>Item Name:</label>
+        <input type="text" placeholder="e.g. Wallet, Phone, Keys" required>
+
+        <label>Description:</label>
+        <textarea placeholder="Enter details like color, brand, unique marks" required></textarea>
+
+        <label>Date Lost:</label>
+        <input type="date" required>
+
+        <label>Location Lost:</label>
+        <input type="text" placeholder="Where you lost it" required>
+
+        <label>Contact Info:</label>
+        <input type="text" placeholder="Email or phone number" required>
+
+        <!-- Image Upload -->
+        <label>Upload Item Image:</label>
+        <input type="file" accept="image/*" onchange="previewImage(event, 'lostPreview')">
+        <img id="lostPreview" class="image-preview" src="" alt="Image Preview" style="display:none;">
+
+        <button type="submit">Submit Lost Item</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOUND ITEM SECTION -->
+  <section id="found">
+    <div class="card">
+      <h2>Report Found Item</h2>
+      <form>
+        <label>Item Name:</label>
+        <input type="text" placeholder="e.g. Bag, Laptop, ID Card" required>
+
+        <label>Description:</label>
+        <textarea placeholder="Enter details like color, brand, unique marks" required></textarea>
+
+        <label>Date Found:</label>
+        <input type="date" required>
+
+        <label>Location Found:</label>
+        <input type="text" placeholder="Where you found it" required>
+
+        <label>Contact Info:</label>
+        <input type="text" placeholder="Email or phone number" required>
+
+        <!-- Image Upload -->
+        <label>Upload Item Image:</label>
+        <input type="file" accept="image/*" onchange="previewImage(event, 'foundPreview')">
+        <img id="foundPreview" class="image-preview" src="" alt="Image Preview" style="display:none;">
+
+        <button type="submit">Submit Found Item</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- SEARCH SECTION -->
+  <section id="search">
+    <div class="card">
+      <h2>Search Lost & Found</h2>
+      <form>
+        <label>Search by Keyword:</label>
+        <input type="text" placeholder="e.g. Phone, Wallet, Watch">
+
+        <label>Category:</label>
+        <select>
+          <option value="all">All</option>
+          <option value="lost">Lost</option>
+          <option value="found">Found</option>
+        </select>
+
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact">
+    <div class="card">
+      <h2>Contact Us</h2>
+      <p>If you need help or want to report a match between lost and found items, reach out:</p>
+      <p><strong>Organization:</strong> Galgotias Management</p>
+      <p><strong>Email:</strong> guptas###91@#####</p>
+      <p><strong>Phone:</strong> 9142######</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Lost & Found System. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JavaScript for image preview -->
+  <script>
+    function previewImage(event, previewId) {
+      const file = event.target.files[0];
+      const preview = document.getElementById(previewId);
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+
+</body>
+</html>

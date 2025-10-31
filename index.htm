@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lost & Found System</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background: rgba(0, 149, 255, 0.745);
+      color: #333;
+    }
+    header {
+      background: #2200ffa6;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+    }
+    nav {
+      background: rgba(0, 28, 187, 0.663);
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+      color: gray;
+    }
+    section {
+      padding: 30px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #6f0496;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #007bff;
+      color: white;
+      margin-top: 30px;
+    }
+    .image-preview {
+      display: block;
+      margin-top: 10px;
+      max-width: 200px;
+      border-radius: 8px;
+    }
+    label { font-weight: bold; }
+    .moving-text {
+      display: inline-block;
+      white-space: nowrap;
+      animation: moveText 10s linear infinite;
+      font-style: italic;
+      font-weight: bold;
+      color: #ffeb3b;
+    }
+    @keyframes moveText {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
+    }
+    .item-list {
+      margin-top: 20px;
+    }
+    .item {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Lost & Found System</h1>
+  <p class="moving-text">Facilitating all the retrieval items</p>
+</header>
+
+<nav>
+  <a href="#lost">Report Lost Item</a>
+  <a href="#found">Report Found Item</a>
+  <a href="#search">Search</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="lost">
+  <div class="card">
+    <h2>Report Lost Item</h2>
+    <form id="lostForm">
+      <label>Item Name:</label>
+      <input id="lostName" type="text" required>
+      <label>Description:</label>
+      <textarea id="lostDesc" required></textarea>
+      <label>Date Lost:</label>
+      <input id="lostDate" type="date" required>
+      <label>Location Lost:</label>
+      <input id="lostLocation" type="text" required>
+      <label>Contact Info:</label>
+      <input id="lostContact" type="text" required>
+      <label>Upload Item Image:</label>
+      <input type="file" accept="image/*" onchange="previewImage(event, 'lostPreview')">
+      <img id="lostPreview" class="image-preview" style="display:none;">
+      <button type="submit">Submit Lost Item</button>
+    </form>
+  </div>
+</section>
+
+<section id="found">
+  <div class="card">
+    <h2>Report Found Item</h2>
+    <form id="foundForm">
+      <label>Item Name:</label>
+      <input id="foundName" type="text" required>
+      <label>Description:</label>
+      <textarea id="foundDesc" required></textarea>
+      <label>Date Found:</label>
+      <input id="foundDate" type="date" required>
+      <label>Location Found:</label>
+      <input id="foundLocation" type="text" required>
+      <label>Contact Info:</label>
+      <input id="foundContact" type="text" required>
+      <label>Upload Item Image:</label>
+      <input type="file" accept="image/*" onchange="previewImage(event, 'foundPreview')">
+      <img id="foundPreview" class="image-preview" style="display:none;">
+      <button type="submit">Submit Found Item</button>
+    </form>
+  </div>
+</section>
+
+<section id="search">
+  <div class="card">
+    <h2>Search Lost & Found</h2>
+    <form id="searchForm">
+      <input id="searchKeyword" type="text" placeholder="Enter keyword">
+      <select id="searchCategory">
+        <option value="all">All</option>
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+    <div class="item-list" id="searchResults"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="card">
+    <h2>Contact Us</h2>
+    <p><strong>Organization:</strong> Galgotias Management</p>
+    <p><strong>Email:</strong> support@lostfound.com</p>
+    <p><strong>Phone:</strong> 9142XXXXXX</p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Lost & Found System. All Rights Reserved.</p>
+</footer>
+
+<script>
+function previewImage(event, id) {
+  const file = event.target.files[0];
+  const img = document.getElementById(id);
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      img.src = e.target.result;
+      img.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Save Lost Item
+document.getElementById("lostForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const item = {
+    type: "lost",
+    name: lostName.value,
+    desc: lostDesc.value,
+    date: lostDate.value,
+    location: lostLocation.value,
+    contact: lostContact.value
+  };
+  saveItem(item);
+  alert("Lost item submitted successfully!");
+  e.target.reset();
+});
+
+
+document.getElementById("foundForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const item = {
+    type: "found",
+    name: foundName.value,
+    desc: foundDesc.value,
+    date: foundDate.value,
+    location: foundLocation.value,
+    contact: foundContact.value
+  };
+  saveItem(item);
+  alert("Found item submitted successfully!");
+  e.target.reset();
+});
+
+function saveItem(item) {
+  const data = JSON.parse(localStorage.getItem("items")) || [];
+  data.push(item);
+  localStorage.setItem("items", JSON.stringify(data));
+}
+
+
+document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const keyword = searchKeyword.value.toLowerCase();
+  const category = searchCategory.value;
+  const results = document.getElementById("searchResults");
+  results.innerHTML = "";
+  const items = JSON.parse(localStorage.getItem("items")) || [];
+  const filtered = items.filter(item =>
+    (category === "all" || item.type === category) &&
+    (item.name.toLowerCase().includes(keyword) || item.desc.toLowerCase().includes(keyword))
+  );
+  if (filtered.length === 0) {
+    results.innerHTML = "<p>No items found.</p>";
+  } else {
+    filtered.forEach(i => {
+      results.innerHTML += `
+        <div class="item">
+          <strong>${i.type.toUpperCase()}</strong>: ${i.name}<br>
+          <em>${i.desc}</em><br>
+          <small>${i.location} | ${i.date}</small><br>
+          <small>Contact: ${i.contact}</small>
+        </div>`;
+    });
+  }
+});
+</script>
+</body>
+</html>
